@@ -258,7 +258,7 @@ of the initial include plus puppet-include-indent."
 (defvar puppet-font-lock-keywords
   (list
    ;; defines, classes, and nodes
-   '("^\\s *\\(class\\|define\\|node\\)\\s +\\([^( \t\n]+\\)"
+   '("^\\s *\\(class\\|define\\|node\\)\\s +\\([^{( \t\n]+\\)"
      2 font-lock-function-name-face)
    ;; inheritence
    '("\\s +inherits\\s +\\([^( \t\n]+\\)"
