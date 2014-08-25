@@ -158,6 +158,7 @@ of the initial include plus puppet-include-indent."
   "Indent current line as puppet code."
   (interactive)
   (beginning-of-line)
+  (align-current)                       ; Always align attributes
   (if (bobp)
       (indent-line-to 0)                ; First line is always non-indented
     (let ((not-indented t)
