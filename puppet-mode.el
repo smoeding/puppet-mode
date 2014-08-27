@@ -295,8 +295,8 @@ of the initial include plus puppet-include-indent."
    '("^\\s *\\([a-z][a-zA-Z0-9_:-]*\\)\\s +{"
      1 font-lock-type-face)
    ;; overrides and type references
-   '("\\s +\\([A-Z][a-zA-Z0-9_:-]*\\)\\["
-     1 font-lock-type-face)
+   '("\\(\\s +\\|\\s(\\)\\([A-Z][a-zA-Z0-9_:-]*\\)\\["
+     2 font-lock-type-face)
    ;; keywords
    (cons (regexp-opt
           '("alert"
