@@ -289,22 +289,28 @@ of the initial include plus puppet-include-indent."
    ;; keywords
    (cons (regexp-opt
           '("alert"
+            "and"
             "case"
             "class"
+            "contain"
             "create_resources"
             "crit"
             "debug"
             "default"
             "define"
             "defined"
+            "each"
             "else"
+            "elsif"
             "emerg"
+            "epp"
             "err"
             "extlookup"
             "fail"
             "false"
             "file"
             "filebucket"
+            "filter"
             "fqdn_rand"
             "generate"
             "hiera"
@@ -313,25 +319,33 @@ of the initial include plus puppet-include-indent."
             "hiera_include"
             "if"
             "import"
+            "in"
             "include"
             "info"
             "inherits"
+            "inline_epp"
             "inline_template"
+            "lookup"
+            "map"
             "md5"
             "node"
             "notice"
+            "or"
             "realize"
+            "reduce"
             "regsubst"
             "require"
             "search"
             "sha1"
             "shellquote"
+            "slice"
             "split"
             "sprintf"
             "tag"
             "tagged"
             "template"
             "true"
+            "undef"
             "unless"
             "versioncmp"
             "warning")
@@ -376,8 +390,8 @@ The variable puppet-indent-level controls the amount of indentation.
   (set (make-local-variable 'indent-tabs-mode) puppet-indent-tabs-mode)
   (set (make-local-variable 'require-final-newline) t)
   (set (make-local-variable 'paragraph-ignore-fill-prefix) t)
-  (set (make-local-variable 'paragraph-start) "\f\\|[ 	]*$\\|#$")
-  (set (make-local-variable 'paragraph-separate) "\\([ 	\f]*\\|#\\)$")
+  (set (make-local-variable 'paragraph-start) "\f\\|[   ]*$\\|#$")
+  (set (make-local-variable 'paragraph-separate) "\\([  \f]*\\|#\\)$")
   (or (boundp 'font-lock-variable-name-face)
       (setq font-lock-variable-name-face font-lock-type-face))
   (set (make-local-variable 'font-lock-keywords) puppet-font-lock-keywords)
