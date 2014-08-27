@@ -296,7 +296,7 @@ of the initial include plus puppet-include-indent."
    '("\\$[a-zA-Z0-9_:]+"
      0 font-lock-variable-name-face)
    ;; usage of types
-   '("^\\s *\\([a-z][a-zA-Z0-9_:-]*\\)\\s +{"
+   '("^\\s *\\(\\(::\\)?[a-z][a-zA-Z0-9_:-]*\\)\\s +{"
      1 font-lock-type-face)
    ;; overrides and type references
    '("\\(\\s +\\|\\s(\\)\\([A-Z][a-zA-Z0-9_:-]*\\)\\["
