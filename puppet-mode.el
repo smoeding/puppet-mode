@@ -286,8 +286,12 @@ of the initial include plus puppet-include-indent."
    ;; include
    '("\\(^\\|\\s +\\)include\\s +\\(\\([a-zA-Z0-9:_-]+\\(,[ \t\n]*\\)?\\)+\\)"
      2 font-lock-reference-face)
+   ;; constants
    '("\\(^\\|[^_:.@$]\\)\\b\\(true\\|false\\|undef\\)\\>"
      2 font-lock-constant-face)
+   ;; fat commas
+   '("\\<\\([a-zA-Z0-9_:]+\\)\\>\\s *=>"
+     1 font-lock-constant-face)
    ;; variables
    '("\\$[a-zA-Z0-9_:]+"
      0 font-lock-variable-name-face)
