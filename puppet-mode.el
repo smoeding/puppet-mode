@@ -25,6 +25,8 @@
 
 ;;; Code:
 
+(require 'align)
+
 (defconst puppet-mode-version "0.2")
 
 (defvar puppet-mode-abbrev-table nil
@@ -371,6 +373,15 @@ of the initial include plus puppet-include-indent."
      (2 font-lock-string-face)))
   "*Additional expressions to highlight in puppet mode.")
 
+(defvar puppet-align-rules
+  '((puppet-align
+     (modes   . '(puppet-mode))
+     (regexp  . "\\(\\s-*\\)=>\\(\\s-*\\)")
+     (group   1 2)
+     (spacing . 1)
+     (repeat  . t)))
+  "*Rules to align code in puppet mode.")
+
 ;;;###autoload
 (defun puppet-mode ()
   "Major mode for editing puppet manifests.
@@ -404,6 +415,7 @@ The variable puppet-indent-level controls the amount of indentation.
        '((puppet-font-lock-keywords) nil nil))
   (set (make-local-variable 'font-lock-syntax-table)
        puppet-font-lock-syntax-table)
+  (dolist (ar puppet-align-rules) (add-to-list 'align-rules-list ar))
   (run-hooks 'puppet-mode-hook))
 
 (provide 'puppet-mode)
