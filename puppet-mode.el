@@ -208,6 +208,16 @@ of the initial include plus puppet-include-indent."
         ;; comma and we're at the inner block, so we should indent it matching
         ;; the indentation of the opening brace of the block.
         (setq cur-indent block-indent))
+       ((looking-at "^\\s-*}\\s-*\\(else\\|elsif\\)")
+        ;; This line contains a closing brace and the else or elsif keywords,
+        ;; so we should indent it matching the indentation of the opening
+        ;; brace of the block.
+        (setq cur-indent block-indent))
+       ((looking-at "^[^\n\({]*\)\\s-*\\(inherits\\s-+[a-zA-Z0-9_:-]*\\s-*\\)?{\\s-*$")
+        ;; Closing paren, optionally followed by the inherits keyword and a
+        ;; class name and another brace will be indented one level too much.
+        (setq cur-indent (- (current-indentation) puppet-indent-level))
+        (setq not-indented nil))
        (t
         ;; Otherwise, we did not start on a block-ending-only line.
         (save-excursion
@@ -220,6 +230,18 @@ of the initial include plus puppet-include-indent."
              ((puppet-comment-line-p)
               (if (bobp)
                   (setq not-indented nil)))
+
+             ;; Indent by one level more if the line ends with an open brace
+             ;; after the else or elsif keywords.
+             ((looking-at "^.*\\(else\\|elsif.*\\)\\s-*{\\s-*$")
+              (setq cur-indent (+ (current-indentation) puppet-indent-level))
+              (setq not-indented nil))
+
+             ;; Indent by one level more if the line ends with an open brace
+             ;; after the inherits keyword.
+             ((looking-at "^[^\n\({]*\)\\s-*\\(inherits\\s-+[a-zA-Z0-9_:-]*\\s-*\\)?{\\s-*$")
+              (setq cur-indent (+ (current-indentation) puppet-indent-level))
+              (setq not-indented nil))
 
              ;; Brace or paren on a line by itself will already be indented to
              ;; the right level, so we can cheat and stop there.
