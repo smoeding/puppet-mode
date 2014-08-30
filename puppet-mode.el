@@ -319,12 +319,6 @@ of the initial include plus puppet-include-indent."
    ;; variables
    '("\\$[a-zA-Z0-9_:]+"
      0 font-lock-variable-name-face)
-   ;; usage of types
-   '("^\\s *\\(\\(::\\)?[a-z][a-zA-Z0-9_:-]*\\)\\s +{"
-     1 font-lock-type-face)
-   ;; overrides and type references
-   '("\\(\\s +\\|\\s(\\)\\([A-Z][a-zA-Z0-9_:-]*\\)\\["
-     2 font-lock-type-face)
    ;; keywords
    (cons (regexp-opt
           '("alert"
@@ -390,6 +384,12 @@ of the initial include plus puppet-include-indent."
             "warning")
           'words)
          1)
+   ;; usage of types
+   '("^\\s *\\(\\(::\\)?[a-z][a-zA-Z0-9_:-]*\\)\\s +{"
+     1 font-lock-type-face)
+   ;; overrides and type references
+   '("\\(\\s +\\|\\s(\\)\\([A-Z][a-zA-Z0-9_:-]*\\)\\["
+     2 font-lock-type-face)
    ;; general delimited string
    '("\\(^\\|[[ \t\n<+(,=]\\)\\(%[xrqQwW]?\\([^<[{(a-zA-Z0-9 \n]\\)[^\n\\\\]*\\(\\\\.[^\n\\\\]*\\)*\\(\\3\\)\\)"
      (2 font-lock-string-face)))
