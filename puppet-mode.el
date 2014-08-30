@@ -44,8 +44,9 @@
 
 (defvar puppet-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map "\C-j" 'newline-and-indent)
-    (define-key map "\C-m" 'newline-and-indent)
+    (define-key map "\C-j"     'newline-and-indent)
+    (define-key map "\C-m"     'newline-and-indent)
+    (define-key map "\C-c\C-c" 'compile)
     map)
   "Key map used in puppet-mode buffers.")
 
@@ -87,6 +88,10 @@ of Emacs."
       (goto-char start)
       (while (re-search-forward re end t) (setq n (1+ n)))
       n)))
+
+(defcustom puppet-manifest-verify-command "puppet parser validate --color=no"
+  "Command to use when checking a manifest syntax"
+  :type 'string :group 'puppet)
 
 (defun puppet-comment-line-p ()
   "Return non-nil iff this line is a comment."
@@ -294,6 +299,10 @@ of the initial include plus puppet-include-indent."
           (indent-line-to cur-indent)
         (indent-line-to 0)))))
 
+(defun puppet-mode-compilation-buffer-name (&rest ignore)
+  "Return the name of puppet compilation buffer"
+  "*puppet-lint*")
+
 (defvar puppet-font-lock-syntax-table
   (let* ((tbl (copy-syntax-table puppet-mode-syntax-table)))
     (modify-syntax-entry ?_ "w" tbl)
@@ -437,6 +446,8 @@ The variable puppet-indent-level controls the amount of indentation.
        '((puppet-font-lock-keywords) nil nil))
   (set (make-local-variable 'font-lock-syntax-table)
        puppet-font-lock-syntax-table)
+  (set (make-local-variable 'compilation-buffer-name-function) 'puppet-mode-compilation-buffer-name)
+  (set (make-local-variable 'compile-command) (concat  puppet-manifest-verify-command " " (buffer-file-name)))
   (dolist (ar puppet-align-rules) (add-to-list 'align-rules-list ar))
   (run-hooks 'puppet-mode-hook))
 
