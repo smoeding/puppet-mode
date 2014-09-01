@@ -322,14 +322,38 @@ of the initial include plus puppet-include-indent."
    ;; constants
    '("\\(^\\|[^_:.@$]\\)\\b\\(true\\|false\\|undef\\)\\>"
      2 font-lock-constant-face)
-   ;; fat commas
-   '("\\<\\([a-zA-Z0-9_:]+\\)\\>\\s *=>"
-     1 font-lock-constant-face)
+   ;; parameters with hash rockets
+   ;; (borrow the preprocessor face for this case)
+   '("\\([a-z][a-z0-9_]*\\)[ \t\n]*=>"
+     1 font-lock-preprocessor-face)
+   ;; values for parameter 'ensure' with hash rocket
+   (list (concat "ensure[ \t\n]*=>[ \t\n]*"
+                 (regexp-opt '("absent"
+                               "configured"
+                               "defined"
+                               "directory"
+                               "false"
+                               "file"
+                               "held"
+                               "installed"
+                               "latest"
+                               "link"
+                               "mounted"
+                               "no_shutdown"
+                               "present"
+                               "purged"
+                               "role"
+                               "running"
+                               "shutdown"
+                               "stopped"
+                               "true"
+                               "unmounted") 'words))
+         1 'font-lock-constant-face)
    ;; variables
    '("\\$[a-zA-Z0-9_:]+"
      0 font-lock-variable-name-face)
    ;; keywords
-   (cons (regexp-opt
+   (list (regexp-opt
           '("alert"
             "and"
             "case"
@@ -392,7 +416,7 @@ of the initial include plus puppet-include-indent."
             "versioncmp"
             "warning")
           'words)
-         1)
+         1 'font-lock-keyword-face)
    ;; usage of types
    '("^\\s *\\(\\(::\\)?[a-z][a-zA-Z0-9_:-]*\\)\\s +{"
      1 font-lock-type-face)
