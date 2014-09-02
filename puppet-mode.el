@@ -352,27 +352,34 @@ of the initial include plus puppet-include-indent."
    ;; variables
    '("\\$[a-zA-Z0-9_:]+"
      0 font-lock-variable-name-face)
-   ;; keywords
+   ;; keywords (important)
    (list (regexp-opt
           '("alert"
-            "and"
+            "crit"
+            "debug"
+            "emerg"
+            "err"
+            "fail"
+            "info"
+            "notice"
+            "warning") 'words)
+         0 'font-lock-warning-face)
+   ;; keywords (normal)
+   (list (regexp-opt
+          '("and"
             "case"
             "class"
             "contain"
             "create_resources"
-            "crit"
-            "debug"
             "default"
             "define"
             "defined"
             "each"
             "else"
             "elsif"
-            "emerg"
             "epp"
             "err"
             "extlookup"
-            "fail"
             "false"
             "file"
             "filebucket"
@@ -387,7 +394,6 @@ of the initial include plus puppet-include-indent."
             "import"
             "in"
             "include"
-            "info"
             "inherits"
             "inline_epp"
             "inline_template"
@@ -395,7 +401,6 @@ of the initial include plus puppet-include-indent."
             "map"
             "md5"
             "node"
-            "notice"
             "or"
             "realize"
             "reduce"
@@ -413,8 +418,7 @@ of the initial include plus puppet-include-indent."
             "true"
             "undef"
             "unless"
-            "versioncmp"
-            "warning")
+            "versioncmp")
           'words)
          1 'font-lock-keyword-face)
    ;; usage of types
@@ -471,7 +475,7 @@ The variable puppet-indent-level controls the amount of indentation.
   (set (make-local-variable 'font-lock-syntax-table)
        puppet-font-lock-syntax-table)
   (set (make-local-variable 'compilation-buffer-name-function) 'puppet-mode-compilation-buffer-name)
-  (set (make-local-variable 'compile-command) (concat  puppet-manifest-verify-command " " (buffer-file-name)))
+  (set (make-local-variable 'compile-command) (concat puppet-manifest-verify-command " " (buffer-file-name)))
   (dolist (ar puppet-align-rules) (add-to-list 'align-rules-list ar))
   (run-hooks 'puppet-mode-hook))
 
