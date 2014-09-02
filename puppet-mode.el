@@ -47,6 +47,7 @@
     (define-key map "\C-j"     'newline-and-indent)
     (define-key map "\C-m"     'newline-and-indent)
     (define-key map "\C-c\C-c" 'compile)
+    (define-key map "\C-c\C-q" 'puppet-indent-and-align-resource)
     map)
   "Key map used in puppet-mode buffers.")
 
@@ -303,6 +304,14 @@ of the initial include plus puppet-include-indent."
   "Return the name of puppet compilation buffer"
   "*puppet-lint*")
 
+(defun puppet-indent-and-align-resource ()
+  "Indent and align the current puppet resource declaration."
+  (interactive "*")
+  (save-excursion
+    (mark-defun)
+    (indent-region (region-beginning) (region-end))
+    (align (region-beginning) (region-end))))
+
 (defvar puppet-font-lock-syntax-table
   (let* ((tbl (copy-syntax-table puppet-mode-syntax-table)))
     (modify-syntax-entry ?_ "w" tbl)
@@ -466,6 +475,8 @@ The variable puppet-indent-level controls the amount of indentation.
   (set (make-local-variable 'paragraph-ignore-fill-prefix) t)
   (set (make-local-variable 'paragraph-start) "\f\\|[   ]*$\\|#$")
   (set (make-local-variable 'paragraph-separate) "\\([  \f]*\\|#\\)$")
+  (set (make-local-variable 'open-paren-in-column-0-is-defun-start) t)
+  (set (make-local-variable 'defun-prompt-regexp) "^\\s-*\\(class\\|define\\|node\\)\\s-+[a-z][^{]*")
   (or (boundp 'font-lock-variable-name-face)
       (setq font-lock-variable-name-face font-lock-type-face))
   (set (make-local-variable 'font-lock-keywords) puppet-font-lock-keywords)
@@ -480,3 +491,5 @@ The variable puppet-indent-level controls the amount of indentation.
   (run-hooks 'puppet-mode-hook))
 
 (provide 'puppet-mode)
+
+;;; puppet-mode.el ends here
