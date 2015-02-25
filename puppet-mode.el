@@ -325,9 +325,9 @@ of the initial include plus puppet-include-indent."
    ;; inheritence
    '("\\s +inherits\\s +\\([^( \t\n]+\\)"
      1 font-lock-function-name-face)
-   ;; include
-   '("\\(^\\|\\s +\\)include\\s +\\(\\([a-zA-Z0-9:_-]+\\(,[ \t\n]*\\)?\\)+\\)"
-     2 font-lock-reference-face)
+   ;; include & require
+   '("\\(^\\|\\s +\\)\\(include\\|require\\)\\s +\\(\\([a-zA-Z0-9:_-]+\\(,[ \t\n]*\\)?\\)+\\)"
+     3 font-lock-reference-face)
    ;; constants
    '("\\(^\\|[^_:.@$]\\)\\b\\(true\\|false\\|undef\\)\\>"
      2 font-lock-constant-face)
