@@ -211,18 +211,19 @@ of the initial include plus puppet-include-indent."
          (include-start
           (setq cur-indent include-start))
          ((and (looking-at "^\\s-*},?\\s-*$") block-indent)
-          ;; This line contains a closing brace or a closing brace followed by a
-          ;; comma and we're at the inner block, so we should indent it matching
-          ;; the indentation of the opening brace of the block.
+          ;; This line contains a closing brace or a closing brace followed
+          ;; by a comma and we're at the inner block, so we should indent it
+          ;; matching the indentation of the opening brace of the block.
           (setq cur-indent block-indent))
          ((looking-at "^\\s-*}\\s-*\\(else\\|elsif\\)")
-          ;; This line contains a closing brace and the else or elsif keywords,
-          ;; so we should indent it matching the indentation of the opening
-          ;; brace of the block.
+          ;; This line contains a closing brace and the else or elsif
+          ;; keywords, so we should indent it matching the indentation of the
+          ;; opening brace of the block.
           (setq cur-indent block-indent))
          ((looking-at "^[^\n\({]*\)\\s-*\\(inherits\\s-+[a-zA-Z0-9_:-]*\\s-*\\)?{\\s-*$")
           ;; Closing paren, optionally followed by the inherits keyword and a
-          ;; class name and another brace will be indented one level too much.
+          ;; class name and another brace will be indented one level too
+          ;; much.
           (setq cur-indent (- (current-indentation) puppet-indent-level))
           (setq not-indented nil))
          (t
@@ -238,34 +239,37 @@ of the initial include plus puppet-include-indent."
                 (if (bobp)
                     (setq not-indented nil)))
 
-               ;; Indent by one level more if the line ends with an open brace
-               ;; after the else or elsif keywords.
+               ;; Indent by one level more if the line ends with an open
+               ;; brace after the else or elsif keywords.
                ((looking-at "^.*\\(else\\|elsif.*\\)\\s-*{\\s-*$")
                 (setq cur-indent (+ (current-indentation) puppet-indent-level))
                 (setq not-indented nil))
 
-               ;; Indent by one level more if the line ends with an open brace
-               ;; after the inherits keyword.
+               ;; Indent by one level more if the line ends with an open
+               ;; brace after the inherits keyword.
                ((looking-at "^[^\n\({]*\)\\s-*\\(inherits\\s-+[a-zA-Z0-9_:-]*\\s-*\\)?{\\s-*$")
                 (setq cur-indent (+ (current-indentation) puppet-indent-level))
                 (setq not-indented nil))
 
-               ;; Brace or paren on a line by itself will already be indented to
-               ;; the right level, so we can cheat and stop there.
+               ;; Brace or paren on a line by itself will already be indented
+               ;; to the right level, so we can cheat and stop there.
                ((looking-at "^\\s-*[\)}]\\s-*")
                 (setq cur-indent (current-indentation))
                 (setq not-indented nil))
 
-               ;; Brace (possibly followed by a comma) or paren not on a line by
-               ;; itself will be indented one level too much, but don't catch
-               ;; cases where the block is started and closed on the same line.
+               ;; Brace (possibly followed by a comma) or paren not on a line
+               ;; by itself will be indented one level too much, but don't
+               ;; catch cases where the block is started and closed on the
+               ;; same line.
                ((looking-at "^[^\n\({]*[\)}],?\\s-*$")
                 (setq cur-indent (- (current-indentation) puppet-indent-level))
                 (setq not-indented nil))
 
-               ;; Indent by one level more than the start of our block.  We lose
-               ;; if there is more than one block opened and closed on the same
-               ;; line but it's still unbalanced; hopefully people don't do that.
+               ;; Indent by one level more than the start of our block. We
+               ;; lose if there is more than one block opened and closed on
+               ;; the same line but it's still unbalanced; hopefully people
+               ;; don't do that.
+
                ((looking-at "^.*{[^\n}]*$")
                 (setq cur-indent (+ (current-indentation) puppet-indent-level))
                 (setq not-indented nil))
@@ -275,14 +279,15 @@ of the initial include plus puppet-include-indent."
                 (setq cur-indent (+ (current-indentation) puppet-indent-level))
                 (setq not-indented nil))
 
-               ;; Semicolon ends a block for a resource when multiple resources
-               ;; are defined in the same block, but try not to get the case of
-               ;; a complete resource on a single line wrong.
+               ;; Semicolon ends a block for a resource when multiple
+               ;; resources are defined in the same block, but try not to get
+               ;; the case of a complete resource on a single line wrong.
                ((looking-at "^\\([^'\":\n]\\|\"[^\n\"]*\"\\|'[^\n']*'\\)*;\\s-*$")
                 (setq cur-indent (- (current-indentation) puppet-indent-level))
                 (setq not-indented nil))
 
-               ;; Indent an extra level after : since it introduces a resource.
+               ;; Indent an extra level after : since it introduces a
+               ;; resource.
                ((looking-at "^.*:\\s-*$")
                 (setq cur-indent (+ (current-indentation) puppet-indent-level))
                 (setq not-indented nil))
