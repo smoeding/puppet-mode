@@ -579,6 +579,249 @@ of the initial include plus puppet-include-indent."
      (repeat  . t)))
   "*Rules to align code in puppet mode.")
 
+(defvar puppet-completion-words-global
+  '("augeas" "class" "computer" "cron" "exec" "file" "filebucket" "group"
+    "host" "interface" "k5login" "macauthorization" "mailalias" "maillist"
+    "mcx" "mount" "nagios_command" "nagios_contact" "nagios_contactgroup"
+    "nagios_host" "nagios_hostdependency" "nagios_hostescalation"
+    "nagios_hostextinfo" "nagios_hostgroup" "nagios_service"
+    "nagios_servicedependency" "nagios_serviceescalation"
+    "nagios_serviceextinfo" "nagios_servicegroup" "nagios_timeperiod"
+    "notify" "package" "resources" "router" "schedule" "scheduled_task"
+    "selboolean" "selmodule" "service" "ssh_authorized_key" "sshkey" "stage"
+    "tidy" "user" "vlan" "yumrepo" "zfs" "zone" "zpool"
+    ;; metaparameter
+    "alias" "audit" "before" "consume" "export" "loglevel" "noop" "notify"
+    "require" "schedule" "stage" "subscribe" "tag")
+  "Global keywords for completion in `puppet-mode'.")
+
+(defvar puppet-completion-words-alist
+  '(("augeas" . ("name" "changes" "context" "force" "incl" "lens" "load_path"
+                 "onlyif" "provider" "returns" "root" "show_diff"
+                 "type_check"))
+    ("computer" . ("name" "ensure" "en_address" "ip_address" "provider"
+                   "realname"))
+    ("cron" . ("name" "ensure" "command" "environment" "hour" "minute"
+               "month" "monthday" "provider" "special" "target" "user"
+               "weekday"))
+    ("exec" . ("command" "creates" "cwd" "environment" "group" "logoutput"
+                 "onlyif" "path" "provider" "refresh" "refreshonly" "returns"
+                 "timeout" "tries" "try_sleep" "umask" "unless" "user"))
+    ("file" . ("path" "ensure" "backup" "checksum" "content" "ctime" "force"
+                 "group" "ignore" "links" "mode" "mtime" "owner" "provider"
+                 "purge" "recurse" "recurselimit" "replace"
+                 "selinux_ignore_defaults" "selrange" "selrole" "seltype"
+                 "seluser" "show_diff" "source" "source_permissions"
+                 "sourceselect" "target" "type" "validate_cmd"
+                 "validate_replacement"))
+    ("filebucket" . ("name" "path" "port" "server"))
+    ("group" . ("name" "ensure" "allowdupe" "attribute_membership"
+                "attributes" "auth_membership" "forcelocal" "gid"
+                "ia_load_module" "members" "provider" "system"))
+    ("host" . ("name" "ensure" "comment" "host_aliases" "ip" "provider"
+               "target"))
+    ("interface" . ("name" "ensure" "allowed_trunk_vlans" "description"
+                    "device_url" "duplex" "encapsulation" "etherchannel"
+                    "ipaddress" "mode" "native_vlan" "provider" "speed"))
+    ("k5login" . ("path" "ensure" "mode" "principals" "provider"))
+    ("macauthorization" . ("name" "ensure" "allow_root" "auth_class"
+                           "auth_type" "authenticate_user" "comment" "group"
+                           "k_of_n" "mechanisms" "provider" "rule"
+                           "session_owner" "shared" "timeout" "tries"))
+    ("mailalias" . ("name" "ensure" "file" "provider" "recipient" "target"))
+    ("maillist" . ("name" "ensure" "admin" "description" "mailserver"
+                   "password" "provider" "webserver"))
+    ("mcx" . ("name" "ensure" "content" "ds_name" "ds_type" "provider"))
+    ("mount" . ("name" "ensure" "atboot" "blockdevice" "device" "dump"
+                "fstype" "options" "pass" "provider" "remounts" "target"))
+    ("nagios_command" . ("command_name" "ensure" "command_line" "group"
+                         "mode" "owner" "poller_tag" "provider" "target"
+                         "use"))
+    ("nagios_contact" . ("contact_name" "ensure" "address1" "address2"
+                         "address3" "address4" "address5" "address6" "alias"
+                         "can_submit_commands" "contactgroups" "email"
+                         "group" "host_notification_commands"
+                         "host_notification_options"
+                         "host_notification_period"
+                         "host_notifications_enabled" "mode" "owner" "pager"
+                         "provider" "register" "retain_nonstatus_information"
+                         "retain_status_information"
+                         "service_notification_commands"
+                         "service_notification_options"
+                         "service_notification_period"
+                         "service_notifications_enabled" "target" "use"))
+    ("nagios_contactgroup" . ("contactgroup_name" "ensure" "alias"
+                              "contactgroup_members" "group" "members" "mode"
+                              "owner" "provider" "register" "target" "use"))
+    ("nagios_host" . ("host_name" "ensure" "action_url"
+                      "active_checks_enabled" "address" "alias"
+                      "business_impact" "check_command" "check_freshness"
+                      "check_interval" "check_period" "contact_groups"
+                      "contacts" "display_name" "event_handler"
+                      "event_handler_enabled" "failure_prediction_enabled"
+                      "first_notification_delay" "flap_detection_enabled"
+                      "flap_detection_options" "freshness_threshold" "group"
+                      "high_flap_threshold" "hostgroups" "icon_image"
+                      "icon_image_alt" "initial_state" "low_flap_threshold"
+                      "max_check_attempts" "mode" "notes" "notes_url"
+                      "notification_interval" "notification_options"
+                      "notification_period" "notifications_enabled"
+                      "obsess_over_host" "owner" "parents"
+                      "passive_checks_enabled" "poller_tag"
+                      "process_perf_data" "provider" "realm" "register"
+                      "retain_nonstatus_information"
+                      "retain_status_information" "retry_interval"
+                      "stalking_options" "statusmap_image" "target" "use"
+                      "vrml_image"))
+    ("nagios_hostdependency" . ("_naginator_name" "ensure"
+                                "dependency_period" "dependent_host_name"
+                                "dependent_hostgroup_name"
+                                "execution_failure_criteria" "group"
+                                "host_name" "hostgroup_name"
+                                "inherits_parent" "mode"
+                                "notification_failure_criteria" "owner"
+                                "provider" "register" "target" "use"))
+    ("nagios_hostescalation" . ("_naginator_name" "ensure" "contact_groups"
+                                "contacts" "escalation_options"
+                                "escalation_period" "first_notification"
+                                "group" "host_name" "hostgroup_name"
+                                "last_notification" "mode"
+                                "notification_interval" "owner" "provider"
+                                "register" "target" "use"))
+    ("nagios_hostextinfo" . ("host_name" "ensure" "group" "icon_image"
+                             "icon_image_alt" "mode" "notes" "notes_url"
+                             "owner" "provider" "register" "statusmap_image"
+                             "target" "use" "vrml_image"))
+    ("nagios_hostgroup" . ("hostgroup_name" "ensure" "action_url" "alias"
+                           "group" "hostgroup_members" "members" "mode"
+                           "notes" "notes_url" "owner" "provider" "realm"
+                           "register" "target" "use"))
+    ("nagios_service" . ("_naginator_name" "ensure" "action_url"
+                         "active_checks_enabled" "business_impact"
+                         "check_command" "check_freshness" "check_interval"
+                         "check_period" "contact_groups" "contacts"
+                         "display_name" "event_handler"
+                         "event_handler_enabled" "failure_prediction_enabled"
+                         "first_notification_delay" "flap_detection_enabled"
+                         "flap_detection_options" "freshness_threshold"
+                         "group" "high_flap_threshold" "host_name"
+                         "hostgroup_name" "icon_image" "icon_image_alt"
+                         "initial_state" "is_volatile" "low_flap_threshold"
+                         "max_check_attempts" "mode" "normal_check_interval"
+                         "notes" "notes_url" "notification_interval"
+                         "notification_options" "notification_period"
+                         "notifications_enabled" "obsess_over_service"
+                         "owner" "parallelize_check" "passive_checks_enabled"
+                         "poller_tag" "process_perf_data" "provider"
+                         "register" "retain_nonstatus_information"
+                         "retain_status_information" "retry_check_interval"
+                         "retry_interval" "service_description"
+                         "servicegroups" "stalking_options" "target" "use"))
+    ("nagios_servicedependency" . ("_naginator_name" "ensure"
+                                   "dependency_period" "dependent_host_name"
+                                   "dependent_hostgroup_name"
+                                   "dependent_service_description"
+                                   "execution_failure_criteria" "group"
+                                   "host_name" "hostgroup_name"
+                                   "inherits_parent" "mode"
+                                   "notification_failure_criteria" "owner"
+                                   "provider" "register"
+                                   "service_description" "target" "use"))
+    ("nagios_serviceescalation" . ("_naginator_name" "ensure"
+                                   "contact_groups" "contacts"
+                                   "escalation_options" "escalation_period"
+                                   "first_notification" "group" "host_name"
+                                   "hostgroup_name" "last_notification"
+                                   "mode" "notification_interval" "owner"
+                                   "provider" "register"
+                                   "service_description" "servicegroup_name"
+                                   "target" "use"))
+    ("nagios_serviceextinfo" . ("_naginator_name" "ensure" "action_url"
+                                "group" "host_name" "icon_image"
+                                "icon_image_alt" "mode" "notes" "notes_url"
+                                "owner" "provider" "register"
+                                "service_description" "target" "use"))
+    ("nagios_servicegroup" . ("servicegroup_name" "ensure" "action_url"
+                              "alias" "group" "members" "mode" "notes"
+                              "notes_url" "owner" "provider" "register"
+                              "servicegroup_members" "target" "use"))
+    ("nagios_timeperiod" . ("timeperiod_name" "ensure" "alias" "exclude"
+                            "friday" "group" "mode" "monday" "owner"
+                            "provider" "register" "saturday" "sunday"
+                            "target" "thursday" "tuesday" "use" "wednesday"))
+    ("notify" . ("name" "message" "withpath"))
+    ("package" . ("provider" "name" "ensure" "adminfile" "allow_virtual"
+                  "allowcdrom" "category" "configfiles" "description"
+                  "flavor" "install_options" "instance" "package_settings"
+                  "platform" "reinstall_on_refresh" "responsefile" "root"
+                  "source" "status" "uninstall_options" "vendor"))
+    ("resources" . ("name" "purge" "unless_system_user" "unless_uid"))
+    ("router" . ("url"))
+    ("schedule" . ("name" "period" "periodmatch" "range" "repeat" "weekday"))
+    ("scheduled_task" .("name" "ensure" "arguments" "command" "enabled"
+                        "password" "provider" "trigger" "user"
+                        "working_dir"))
+    ("selboolean" . ("name" "persistent" "provider" "value"))
+    ("selmodule" . ("name" "ensure" "provider" "selmoduledir" "selmodulepath"
+                    "syncversion"))
+    ("service" . ("name" "ensure" "binary" "control" "enable" "flags"
+                  "hasrestart" "hasstatus" "manifest" "path" "pattern"
+                  "provider" "restart" "start" "status" "stop"))
+    ("ssh_authorized_key" . ("name" "ensure" "key" "options" "provider"
+                             "target" "type" "user"))
+    ("sshkey" . ("name" "ensure" "host_aliases" "key" "provider" "target"
+                 "type"))
+    ("stage" . ("name"))
+    ("tidy" . ("path" "age" "backup" "matches" "recurse" "rmdirs" "size"
+               "type"))
+    ("user" . ("name" "ensure" "allowdupe" "attribute_membership"
+               "attributes" "auth_membership" "auths" "comment" "expiry"
+               "forcelocal" "gid" "groups" "home" "ia_load_module"
+               "iterations" "key_membership" "keys" "loginclass" "managehome"
+               "membership" "password" "password_max_age" "password_min_age"
+               "profile_membership" "profiles" "project" "provider"
+               "purge_ssh_keys" "role_membership" "roles" "salt" "shell"
+               "system" "uid"))
+    ("vlan" . ("name" "ensure" "description" "device_url" "provider"))
+    ("yumrepo" . ("name" "ensure" "assumeyes" "bandwidth" "baseurl" "cost"
+                  "deltarpm_metadata_percentage" "deltarpm_percentage"
+                  "descr" "enabled" "enablegroups" "exclude" "failovermethod"
+                  "gpgcakey" "gpgcheck" "gpgkey" "http_caching" "include"
+                  "includepkgs" "keepalive" "metadata_expire" "metalink"
+                  "mirrorlist" "mirrorlist_expire" "priority" "protect"
+                  "provider" "proxy" "proxy_password" "proxy_username"
+                  "repo_gpgcheck" "retries" "s3_enabled"
+                  "skip_if_unavailable" "sslcacert" "sslclientcert"
+                  "sslclientkey" "sslverify" "target" "throttle" "timeout"))
+    ("zfs" . ("name" "ensure" "aclinherit" "aclmode" "atime" "canmount"
+              "checksum" "compression" "copies" "dedup" "devices" "exec"
+              "logbias" "mountpoint" "nbmand" "primarycache" "provider"
+              "quota" "readonly" "recordsize" "refquota" "refreservation"
+              "reservation" "secondarycache" "setuid" "shareiscsi" "sharenfs"
+              "sharesmb" "snapdir" "version" "volsize" "vscan" "xattr"
+              "zoned"))
+    ("zone" . ("name" "ensure" "autoboot" "clone" "create_args" "dataset"
+               "id" "inherit" "install_args" "ip" "iptype" "path" "pool"
+               "provider" "realhostname" "shares" "sysidcfg"))
+    ("zpool" . ("pool" "ensure" "disk" "log" "mirror" "provider"
+                "raid_parity" "raidz" "spare")))
+  "Words to use for completion in `puppet-mode'.")
+
+(defun puppet-completion-at-point ()
+  "Complete the word at point."
+  (save-excursion
+    (save-match-data
+      (let ((bounds (bounds-of-thing-at-point 'word))
+            (intype (and (re-search-backward "\\_<\\([a-zA-Z0-9:_]+\\)\\_>\\s-*{" nil t)
+                         (match-string-no-properties 1))))
+        (when bounds
+          (list (car bounds)
+                (cdr bounds)
+                (delete-dups
+                 (append puppet-completion-words-global
+                         (assoc intype puppet-completion-words-alist)))
+                :exclusive 'no))))))
+
 ;;;###autoload
 (defun puppet-mode ()
   "Major mode for editing puppet manifests.
@@ -617,6 +860,7 @@ The variable puppet-indent-level controls the amount of indentation.
   (set (make-local-variable 'compilation-buffer-name-function) 'puppet-mode-compilation-buffer-name)
   (set (make-local-variable 'compile-command) (concat puppet-manifest-verify-command " " (buffer-file-name)))
   (dolist (ar puppet-align-rules) (add-to-list 'align-rules-list ar))
+  (add-to-list 'completion-at-point-functions 'puppet-completion-at-point)
   (run-hooks 'puppet-mode-hook))
 
 (provide 'puppet-mode)
