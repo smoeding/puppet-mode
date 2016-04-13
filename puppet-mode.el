@@ -3,7 +3,7 @@
 ;; Copyright (C) 2011 Puppet Labs Inc
 
 ;; Author: Russ Allbery <rra@stanford.edu>
-;; Maintainer: <info@puppetlabs.com>
+;; Maintainer: <stm@kill-9.net>
 
 ;; This file is not part of GNU Emacs.
 
@@ -27,7 +27,7 @@
 
 (require 'align)
 
-(defconst puppet-mode-version "0.2")
+(defconst puppet-mode-version "0.2-stm.1")
 
 (defvar puppet-mode-abbrev-table nil
   "Abbrev table in use in puppet-mode buffers.")
