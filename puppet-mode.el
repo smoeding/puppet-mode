@@ -346,7 +346,7 @@ of the initial include plus puppet-include-indent."
      2 font-lock-constant-face)
    ;; parameters with hash rockets
    ;; (borrow the preprocessor face for this case)
-   '("\\([a-z][a-z0-9_]*\\)[ \t\n]*=>"
+   '("\\([a-z][a-z0-9_]*\\)[ \t\n]*[=+]>"
      1 font-lock-preprocessor-face)
    ;; values for parameter 'ensure' with hash rocket
    (list (concat "ensure[ \t\n]*=>[ \t\n]*"
