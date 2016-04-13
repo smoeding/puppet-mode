@@ -672,7 +672,7 @@ of the initial include plus puppet-include-indent."
 (defun puppet-mode ()
   "Major mode for editing puppet manifests.
 
-The variable puppet-indent-level controls the amount of indentation.
+The variable `puppet-indent-level' controls the amount of indentation.
 \\{puppet-mode-map}"
   (interactive)
   (kill-all-local-variables)
