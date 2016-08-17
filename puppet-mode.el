@@ -406,11 +406,11 @@ of the initial include plus puppet-include-indent."
           'symbols)
          1 font-lock-function-name-face)
    ;; usage of types
-   '("^\\s *\\(@\\{,2\\}\\(::\\)?[a-z][a-zA-Z0-9_:-]*\\)\\s +{"
+   '("\\(@\\{,2\\}\\([a-z][a-z0-9_]*\\)?\\(::[a-z][a-z0-9_]*\\)*\\)\\s +{"
      1 font-lock-type-face)
    ;; overrides and type references
-   '("\\(\\s +\\|\\s(\\)\\([A-Z][a-zA-Z0-9_:-]*\\)\\["
-     2 font-lock-type-face)
+   '("\\(\\([A-Z][a-z0-9_]*\\)?\\(::[A-Z][a-z0-9_]*\\)*\\)\\(\\[\\|\\s *<\\)"
+     1 font-lock-type-face)
    ;; general delimited string
    '("\\(^\\|[[ \t\n<+(,=]\\)\\(%[xrqQwW]?\\([^<[{(a-zA-Z0-9 \n]\\)[^\n\\\\]*\\(\\\\.[^\n\\\\]*\\)*\\(\\3\\)\\)"
      (2 font-lock-string-face)))
