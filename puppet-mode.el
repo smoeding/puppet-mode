@@ -379,6 +379,7 @@ of the initial include plus puppet-include-indent."
             "tagged" "template" "true" "undef" "unless" "versioncmp")
           'symbols)
          1 'font-lock-keyword-face)
+   '("\\<\\(default\\):" 1 'font-lock-keyword-face)
    ;; keywords (stdlib functions)
    (list (regexp-opt
           '("abs" "any2array" "assert_private" "base64" "basename" "bool2num"
