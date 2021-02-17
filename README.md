@@ -20,10 +20,12 @@ Features
 1. Syntax highlighting
 2. Indentation and alignment of expressions and statements
 3. Tag navigation (aka `imenu`)
-4. Manual validation and linting of manifests (see [Flycheck][] for on-the-fly
+4. Cross-reference navigation (aka `xref`) to classes, defined types, data
+   types or functions defined in other modules
+5. Manual validation and linting of manifests (see [Flycheck][] for on-the-fly
    validation and linting)
-5. Integration with [Puppet Debugger][]
 6. Skeletons for many standard Puppet statements and resource declarations
+7. Integration with [Puppet Debugger][]
 
 Installation
 ------------
@@ -82,6 +84,8 @@ Key                  | Command
 <kbd>C-c C-t p</kbd> | Insert `package` resource skeleton
 <kbd>C-c C-t s</kbd> | Insert `service` resource skeleton
 <kbd>C-c C-t u</kbd> | Insert `user` resource skeleton
+<kbd>M-.</kbd>       | Jump to the resource definition at point
+<kbd>M-,</kbd>       | Jump back after visiting a resource definition
 
 
 For the integration with puppet-debugger to work, the puppet-debugger gem needs
