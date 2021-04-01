@@ -1,35 +1,28 @@
-language: emacs-lisp
-matrix:
-  # Don’t wait for jobs that are allowed to fail
-  fast_finish: true
-  # Allow snapshot to fail
-  allow_failures:
-    - env: EMACS_VERSION=snapshot
-cache:
-  - directories:
-      - .cask/
+# .travis.yml ---
+---
+os: linux
+dist: bionic
+language: shell
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:kelleyk/emacs'
 env:
-  matrix:
-    - EMACS_VERSION=24.4
-    - EMACS_VERSION=24.5
-    - EMACS_VERSION=25.1
-    - EMACS_VERSION=25.2
-    - EMACS_VERSION=snapshot
+  - EMACS=emacs25
+  - EMACS=emacs26
+  - EMACS=emacs27
 before_install:
-  - export PATH="$HOME/bin:$PATH"
-  - wget 'https://raw.githubusercontent.com/flycheck/emacs-travis/master/emacs-travis.mk'
-  - make -f emacs-travis.mk install_emacs
-  - make -f emacs-travis.mk install_cask
+  - sudo apt-get -yq purge 'emacs*'
+  - sudo apt-get -yq --no-install-suggests --no-install-recommends install $EMACS-nox $EMACS-el
+  - git clone -q https://github.com/cask/cask ~/.cask
+  - ln -s /usr/bin/python3 $HOME/.cask/bin/python
+  - ln -s /usr/bin/$EMACS $HOME/.cask/bin/emacs
+  - PATH=$HOME/.cask/bin:$PATH
   - emacs --version
 install:
+  - cask list
   - cask install
 script:
   - make compile test
 notifications:
   email: false
-  webhooks: https://voxpupu.li/incoming/travis
-  irc:
-    on_success: always
-    on_failure: always
-    channels:
-      - "chat.freenode.org#voxpupuli-notifications"
