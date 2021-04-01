@@ -13,7 +13,7 @@ env:
   - EMACS=emacs27
 before_install:
   - sudo apt-get -yq purge 'emacs*'
-  - sudo apt-get -yq --no-install-suggests --no-install-recommends install $EMACS-nox $EMACS-el
+  - sudo apt-get -yq --no-install-suggests --no-install-recommends install $EMACS-nox
   - git clone -q https://github.com/cask/cask ~/.cask
   - ln -s /usr/bin/python3 $HOME/.cask/bin/python
   - ln -s /usr/bin/$EMACS $HOME/.cask/bin/emacs
