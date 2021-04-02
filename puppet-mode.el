@@ -112,6 +112,7 @@ buffer-local wherever it is set."
 (require 'align)
 (require 'ansi-color)
 (require 'comint)
+(require 'xref)
 
 
 ;;; Customization
