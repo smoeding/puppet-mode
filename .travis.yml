@@ -8,7 +8,6 @@ addons:
     sources:
       - sourceline: 'ppa:kelleyk/emacs'
 env:
-  - EMACS=emacs25
   - EMACS=emacs26
   - EMACS=emacs27
 before_install:
