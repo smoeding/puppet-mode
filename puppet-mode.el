@@ -367,7 +367,7 @@ Return nil, if there is no special context at POS, or one of
                                    "puppetdb_fact" "puppetdb_query"
                                    "run_command" "run_plan" "run_script"
                                    "run_task" "set_feature" "set_var" "vars"
-                                   "without_default_logging" 
+                                   "without_default_logging"
                                    )))
       ;; http://docs.puppetlabs.com/references/latest/type.html
       (builtin-type . ,(rx (or "augeas" "computer" "cron" "exec" "file"
