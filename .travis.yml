@@ -1,27 +1,24 @@
-# .travis.yml ---
----
-os: linux
-dist: bionic
-language: shell
-addons:
-  apt:
-    sources:
-      - sourceline: 'ppa:kelleyk/emacs'
+language: emacs-lisp
+matrix:
+  # Don’t wait for jobs that are allowed to fail
+  fast_finish: true
+  # Allow snapshot to fail
+  allow_failures:
+    - env: EMACS_VERSION="master"
+services:
+  - docker
 env:
-  - EMACS=emacs26
-  - EMACS=emacs27
+  matrix:
+    - EMACS_VERSION="26.3"
+    - EMACS_VERSION="27.1"
+    - EMACS_VERSION="master"
 before_install:
-  - sudo apt-get -yq purge 'emacs*'
-  - sudo apt-get -yq --no-install-suggests --no-install-recommends install $EMACS-nox
-  - git clone -q https://github.com/cask/cask ~/.cask
-  - ln -s /usr/bin/python3 $HOME/.cask/bin/python
-  - ln -s /usr/bin/$EMACS $HOME/.cask/bin/emacs
-  - PATH=$HOME/.cask/bin:$PATH
-  - emacs --version
-install:
-  - cask list
-  - cask install
+  - docker pull flycheck/emacs-cask:$EMACS_VERSION
 script:
-  - make compile test
+  - |
+    docker run --volume "$TRAVIS_BUILD_DIR":/puppet-mode \
+               --workdir /puppet-mode \
+               flycheck/emacs-cask:$EMACS_VERSION \
+               /bin/bash -c "make compile test"
 notifications:
   email: false
