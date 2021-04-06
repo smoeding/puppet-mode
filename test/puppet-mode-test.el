@@ -641,6 +641,150 @@ class foo {
   }
 }"))))
 
+;;; Alignment tests for parameter list
+
+(ert-deftest puppet-align-param/no-block ()
+  :tags '(alignment)
+  (puppet-test-with-temp-buffer
+      "
+class foo (String    $foo) {
+}"
+    (search-forward "String")
+    (puppet-align-block)
+    (should (string= (buffer-string) "
+class foo (String $foo) {
+}"))))
+
+(ert-deftest puppet-align-param/block-1-param ()
+  :tags '(alignment)
+  (puppet-test-with-temp-buffer
+      "
+class foo (
+  String    $foo,
+) {
+}"
+    (search-forward "String")
+    (puppet-align-block)
+    (should (string= (buffer-string) "
+class foo (
+  String $foo,
+) {
+}"))))
+
+(ert-deftest puppet-align-param/block-2-param ()
+  :tags '(alignment)
+  (puppet-test-with-temp-buffer
+      "
+class foo (
+  String    $foo,
+  Boolean    $bar,
+) {
+}"
+    (search-forward "String")
+    (puppet-align-block)
+    (should (string= (buffer-string) "
+class foo (
+  String  $foo,
+  Boolean $bar,
+) {
+}"))))
+
+(ert-deftest puppet-align-param/block-3-param ()
+  :tags '(alignment)
+  (puppet-test-with-temp-buffer
+      "
+class foo (
+  String    $foo,
+  Boolean    $bar,
+  Integer $foobar,
+) {
+}"
+    (search-forward "String")
+    (puppet-align-block)
+    (should (string= (buffer-string) "
+class foo (
+  String  $foo,
+  Boolean $bar,
+  Integer $foobar,
+) {
+}"))))
+
+(ert-deftest puppet-align-param/block-1-default ()
+  :tags '(alignment)
+  (puppet-test-with-temp-buffer
+      "
+class foo (
+  String    $foo   = 'foo',
+  Boolean    $bar,
+) {
+}"
+    (search-forward "String")
+    (puppet-align-block)
+    (should (string= (buffer-string) "
+class foo (
+  String  $foo = 'foo',
+  Boolean $bar,
+) {
+}"))))
+
+(ert-deftest puppet-align-param/block-2-default ()
+  :tags '(alignment)
+  (puppet-test-with-temp-buffer
+      "
+class foo (
+  String    $foo   = 'foo',
+  Boolean    $bar =   true,
+) {
+}"
+    (search-forward "String")
+    (puppet-align-block)
+    (should (string= (buffer-string) "
+class foo (
+  String  $foo = 'foo',
+  Boolean $bar = true,
+) {
+}"))))
+
+(ert-deftest puppet-align-param/block-3-default ()
+  :tags '(alignment)
+  (puppet-test-with-temp-buffer
+      "
+class foo (
+  String    $foo   = 'foo',
+  Boolean    $bar =   true,
+  Integer $foobar    =   42,
+) {
+}"
+    (search-forward "String")
+    (puppet-align-block)
+    (should (string= (buffer-string) "
+class foo (
+  String  $foo    = 'foo',
+  Boolean $bar    = true,
+  Integer $foobar = 42,
+) {
+}"))))
+
+(ert-deftest puppet-align-param/block-3-mixed ()
+  :tags '(alignment)
+  (puppet-test-with-temp-buffer
+      "
+class foo (
+  String    $foo,
+  Boolean    $bar =   true,
+  Integer $foobar    =   42,
+) {
+}"
+    (search-forward "String")
+    (puppet-align-block)
+    (should (string= (buffer-string) "
+class foo (
+  String  $foo,
+  Boolean $bar    = true,
+  Integer $foobar = 42,
+) {
+}"))))
+
 
 ;;;; Skeletons
 

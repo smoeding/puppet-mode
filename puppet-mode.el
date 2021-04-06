@@ -1035,7 +1035,14 @@ Used as `syntax-propertize-function' in Puppet Mode."
      (regexp . "\\(\\s-*\\)=>\\(\\s-*\\)")
      (group  . (1 2))
      (modes  . '(puppet-mode))
-     (separate . entire)))
+     (separate . entire))
+    (puppet-param-default
+     (regexp . "\\(\\s-+\\)$[a-z_][a-zA-Z0-9_]*\\(\\s-*\\)=\\(\\s-*\\)")
+     (group  . (1 2 3))
+     (modes  . '(puppet-mode)))
+    (puppet-param-nodefault
+     (regexp . "\\(\\s-+\\)$[a-z_][a-zA-Z0-9_]*")
+     (modes  . '(puppet-mode))))
   "Align rules for Puppet Mode.")
 
 (defconst puppet-mode-align-exclude-rules

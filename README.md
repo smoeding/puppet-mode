@@ -18,7 +18,7 @@ Features
 --------
 
 1. Syntax highlighting
-2. Indentation and alignment of expressions and statements
+2. Indentation and alignment of parameter lists, expressions and statements
 3. Tag navigation (aka `imenu`)
 4. Cross-reference navigation (aka `xref`) to classes, defined types, data
    types or functions defined in other modules
