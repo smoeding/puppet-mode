@@ -1025,6 +1025,10 @@ Used as `syntax-propertize-function' in Puppet Mode."
 
 ;;; Alignment
 
+(defun puppet-align-inside-param-list-p ()
+  "Return t if alignment for parameter rules should be applied."
+  (eq (char-before) ?\)))
+
 ;; Configure alignment
 (add-to-list 'align-sq-string-modes 'puppet-mode)
 (add-to-list 'align-dq-string-modes 'puppet-mode)
@@ -1039,9 +1043,11 @@ Used as `syntax-propertize-function' in Puppet Mode."
     (puppet-param-default
      (regexp . "\\(\\s-+\\)$[a-z_][a-zA-Z0-9_]*\\(\\s-*\\)=\\(\\s-*\\)")
      (group  . (1 2 3))
+     (run-if . puppet-align-inside-param-list-p)
      (modes  . '(puppet-mode)))
     (puppet-param-nodefault
      (regexp . "\\(\\s-+\\)$[a-z_][a-zA-Z0-9_]*")
+     (run-if . puppet-align-inside-param-list-p)
      (modes  . '(puppet-mode))))
   "Align rules for Puppet Mode.")
 

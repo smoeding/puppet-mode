@@ -615,6 +615,22 @@ class foo {
   }
 }"))))
 
+(ert-deftest puppet-align-block/title-variable ()
+  :tags '(alignment)
+  (puppet-test-with-temp-buffer
+      "
+file { $foo:
+  foo => $foo,
+  foobar => $foobar,
+}"
+    (search-forward "foo:")
+    (puppet-align-block)
+    (should (string= (buffer-string) "
+file { $foo:
+  foo    => $foo,
+  foobar => $foobar,
+}"))))
+
 (ert-deftest puppet-align-block/point-in-string ()
   :tags '(alignment)
    (puppet-test-with-temp-buffer
