@@ -2,7 +2,7 @@ Puppet Mode
 ===========
 
 [![License GPL 3][badge-license]][copying]
-[![travis][https://travis-ci.com/smoeding/puppet-mode.svg?branch=master]][travis]
+[![travis](https://travis-ci.com/smoeding/puppet-mode.svg?branch=master)][travis]
 
 Puppet Mode lets you edit [Puppet][] manifests with [GNU Emacs][].
 
