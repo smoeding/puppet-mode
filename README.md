@@ -2,17 +2,21 @@ Puppet Mode
 ===========
 
 [![License GPL 3][badge-license]][copying]
-[![travis][badge-travis]][travis]
+[![travis][https://travis-ci.com/smoeding/puppet-mode.svg?branch=master]][travis]
 
-Puppet Mode lets you edit [Puppet][] 3 manifests with [GNU Emacs][] 24.
+Puppet Mode lets you edit [Puppet][] manifests with [GNU Emacs][].
 
-Puppet Mode is a major mode for [GNU Emacs][] 24 which adds support for the
+Puppet Mode is a major mode for [GNU Emacs][] which adds support for the
 [Puppet][] language.  Puppet is a system provisioning and configuration tool by
 Puppetlabs Inc.  This mode supports Puppet 3 and later.  Puppet 2 is not
 explicitly supported anymore, but should mostly work.
 
-This mode needs GNU Emacs 24.  It will **not** work with GNU Emacs 23 and below,
-or with other flavors of Emacs (e.g. XEmacs).
+The official [Puppet Mode](https://github.com/voxpupuli/puppet-mode) is
+maintained by Vox Pupuli.  I created this fork to implement features that
+depend on a more current Emacs release.
+
+This mode needs GNU Emacs 26.  It will **not** work with GNU Emacs 25 and
+below, or with other flavors of Emacs (e.g. XEmacs).
 
 Features
 --------
@@ -30,18 +34,7 @@ Features
 Installation
 ------------
 
-From [MELPA][] or [MELPA Stable][] with <kbd>M-x package-install RET
-puppet-mode</kbd>.  Users of Debian ≥11 and derivatives can `sudo apt
-install elpa-puppet-mode`.  Manifest validation and linting support is
-enabled by installing the `elpa-flycheck` package.
-
-In your [`Cask`][cask] file:
-
-```el
-(source melpa)
-
-(depends-on "puppet-mode")
-```
+Copy `puppet-mode.el` into your `load-path` and byte compile it.
 
 Usage
 -----
@@ -94,17 +87,6 @@ See [the instructions][puppet debugger install instructions] on
 puppet-debugger's repository on how to install it.
 
 Use `M-x customize-group RET puppet` to customize Puppet Mode.
-
-Support
--------
-
-Feel free to ask question or make suggestions in our [issue tracker][].
-
-Contribute
-----------
-
-- [Issue tracker][]
-- [Github][]
 
 License
 -------
