@@ -1183,8 +1183,8 @@ development in a user's home directory)."
                              ;; stop iteration at the root of the directory
                              ;; tree (should work for Windows & Unix/Linux)
                              until (or (string-suffix-p ":" path)
-                                       (string-equal (file-name-directory path)
-                                                     path))
+                                       (string= (file-name-directory path) path)
+                                       (null (file-name-directory path)))
                              collect (file-name-base path)))
              ;; Remove "init" if it is the first element
              (compact (if (string-equal (car parts) "init")
