@@ -2,7 +2,7 @@ Puppet Mode
 ===========
 
 [![License GPL 3][badge-license]][copying]
-[![travis](https://travis-ci.com/smoeding/puppet-mode.svg?branch=master)][travis]
+[![Build Status](https://github.com/smoeding/puppet-mode/actions/workflows/CI.yaml/badge.svg)](https://github.com/smoeding/puppet-mode/actions/workflows/CI.yaml)
 
 Puppet Mode lets you edit [Puppet][] manifests with [GNU Emacs][].
 
@@ -15,7 +15,7 @@ The official [Puppet Mode](https://github.com/voxpupuli/puppet-mode) is
 maintained by Vox Pupuli.  I created this fork to implement features that
 depend on a more current Emacs release.
 
-This mode needs GNU Emacs 26.  It will **not** work with GNU Emacs 25 and
+This mode needs GNU Emacs 26.2.  It will **not** work with GNU Emacs 26.1 or
 below, or with other flavors of Emacs (e.g. XEmacs).
 
 Features

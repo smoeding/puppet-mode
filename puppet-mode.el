@@ -15,7 +15,7 @@
 ;; URL: https://github.com/voxpupuli/puppet-mode
 ;; Keywords: languages
 ;; Version: 0.4
-;; Package-Requires: ((emacs "24.1") (pkg-info "0.4"))
+;; Package-Requires: ((emacs "26.2") (pkg-info "0.4"))
 
 ;; This file is not part of GNU Emacs.
 
