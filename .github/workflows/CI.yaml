@@ -13,16 +13,18 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         emacs_version:
-          - 26.1
           - 26.2
           - 26.3
           - 27.1
           - 27.2
           - snapshot
+
+    name: Emacs ${{ matrix.emacs_version }}
+    runs-on: ubuntu-latest
 
     steps:
     - name: Install Python
