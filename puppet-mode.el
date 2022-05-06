@@ -1065,11 +1065,13 @@ Used as `syntax-propertize-function' in Puppet Mode."
   "Align the current block."
   (interactive)
   (save-excursion
-    ;; Move point to the beginning of the code to prevent "Unbalanced
+    ;; Move point to the beginning or end of the line to prevent "Unbalanced
     ;; parentheses" error by `backward-up-list' (e.g. when point is inside
     ;; a string).
     (ignore-errors
       (back-to-indentation)
+      (unless (looking-at "}")
+        (goto-char (line-end-position)))
       (backward-up-list)
       (let ((beg (point)))
         (forward-list)
