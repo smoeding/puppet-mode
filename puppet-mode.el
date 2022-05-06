@@ -1065,16 +1065,15 @@ Used as `syntax-propertize-function' in Puppet Mode."
   "Align the current block."
   (interactive)
   (save-excursion
-    ;; Move point after the end of the string if inside a string to
-    ;; prevent "Unbalanced parentheses" error by `backward-up-list'.
-    (let ((region (puppet-string-region)))
-      (when region
-        (goto-char (nth 1 region))
-        (forward-char)))
-    (backward-up-list)
-    (let ((beg (point)))
-      (forward-list)
-      (align beg (point)))))
+    ;; Move point to the beginning of the code to prevent "Unbalanced
+    ;; parentheses" error by `backward-up-list' (e.g. when point is inside
+    ;; a string).
+    (ignore-errors
+      (back-to-indentation)
+      (backward-up-list)
+      (let ((beg (point)))
+        (forward-list)
+        (align beg (point))))))
 
 
 ;;; Dealing with strings
