@@ -725,6 +725,26 @@ class foo (
 ) {
 }"))))
 
+(ert-deftest puppet-align-param/block-nested ()
+  :tags '(alignment)
+  (puppet-test-with-temp-buffer
+      "
+class foo (
+  String    $foo,
+  Optional[Integer,Enum['bar','baz']]    $bar,
+  Integer $foobar,
+) {
+}"
+    (search-forward "baz")
+    (puppet-align-block)
+    (should (string= (buffer-string) "
+class foo (
+  String                              $foo,
+  Optional[Integer,Enum['bar','baz']] $bar,
+  Integer                             $foobar,
+) {
+}"))))
+
 (ert-deftest puppet-align-param/block-1-default ()
   :tags '(alignment)
   (puppet-test-with-temp-buffer
