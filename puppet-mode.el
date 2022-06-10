@@ -1084,10 +1084,6 @@ Used as `syntax-propertize-function' in Puppet Mode."
   "Check if looking backwards at BACK and forward at AT."
   (and (looking-at-p at) (looking-back back nil)))
 
-(defun puppet-string-at-point-p ()
-  "Check if cursor is at a string or not."
-  (puppet-string-region))
-
 (defun puppet-string-region ()
   "Return region for string at point."
   (let ((beginning-of-string (nth 8 (syntax-ppss))))
@@ -1123,22 +1119,22 @@ With a prefix argument SUPPRESS it simply inserts $."
 (defun puppet-toggle-string-quotes ()
   "Toggle string literal quoting between single and double."
   (interactive)
-  (when (puppet-string-at-point-p)
-    (let* ((region (puppet-string-region))
-           (min (nth 0 region))
-           (max (nth 1 region))
-           (string-quote (puppet--inverse-string-quote (buffer-substring-no-properties min (1+ min))))
-           (content
-            (buffer-substring-no-properties (1+ min) (1- max))))
-      (setq content
-            (if (equal string-quote "\"")
-                (replace-regexp-in-string "\\\\\"" "\"" (replace-regexp-in-string "\\([^\\\\]\\)'" "\\1\\\\'" content))
-              (replace-regexp-in-string "\\\\\'" "'" (replace-regexp-in-string "\\([^\\\\]\\)\"" "\\1\\\\\"" content))))
-      (let ((orig-point (point)))
-        (delete-region min max)
-        (insert
-         (format "%s%s%s" string-quote content string-quote))
-        (goto-char orig-point)))))
+  (let ((region (puppet-string-region)))
+    (if region
+        (let* ((min (nth 0 region))
+               (max (nth 1 region))
+               (string-quote (puppet--inverse-string-quote (buffer-substring-no-properties min (1+ min))))
+               (content
+                (buffer-substring-no-properties (1+ min) (1- max))))
+          (setq content
+                (if (equal string-quote "\"")
+                    (replace-regexp-in-string "\\\\\"" "\"" (replace-regexp-in-string "\\([^\\\\]\\)'" "\\1\\\\'" content))
+                  (replace-regexp-in-string "\\\\\'" "'" (replace-regexp-in-string "\\([^\\\\]\\)\"" "\\1\\\\\"" content))))
+          (let ((orig-point (point)))
+            (delete-region min max)
+            (insert
+             (format "%s%s%s" string-quote content string-quote))
+            (goto-char orig-point))))))
 
 (defun puppet--inverse-string-quote (string-quote)
   "Get the inverse string quoting for STRING-QUOTE."
@@ -1147,11 +1143,11 @@ With a prefix argument SUPPRESS it simply inserts $."
 (defun puppet-clear-string ()
   "Clear string at point."
   (interactive)
-  (when (puppet-string-at-point-p)
-    (let* ((region (puppet-string-region))
-           (min (nth 0 region))
-           (max (nth 1 region)))
-      (delete-region (+ min 1) (- max 1)))))
+  (let ((region (puppet-string-region)))
+    (if region
+        (let ((min (nth 0 region))
+              (max (nth 1 region)))
+          (delete-region (+ min 1) (- max 1))))))
 
 
 
