@@ -327,16 +327,17 @@ Return nil, if there is no special context at POS, or one of
                                    "fqdn_rand" "generate" "get" "getvar"
                                    "group_by" "hiera" "hiera_array"
                                    "hiera_hash" "hiera_include" "hocon_data"
-                                   "import" "include" "info" "inline_epp"
-                                   "inline_template" "join" "json_data" "keys"
-                                   "length" "lest" "lookup" "lstrip" "map"
-                                   "match" "max" "md5" "min" "new" "next"
-                                   "notice" "partition" "realize" "reduce"
-                                   "regsubst" "require" "return" "reverse_each"
-                                   "round" "rstrip" "scanf" "sha1" "sha256"
-                                   "shellquote" "size" "slice" "split"
+                                   "import" "include" "index" "info"
+                                   "inline_epp" "inline_template" "join"
+                                   "json_data" "keys" "length" "lest" "lookup"
+                                   "lstrip" "map" "match" "max" "md5" "min"
+                                   "module_directory" "new" "next" "notice"
+                                   "partition" "realize" "reduce" "regsubst"
+                                   "require" "return" "reverse_each" "round"
+                                   "rstrip" "scanf" "sha1" "sha256"
+                                   "shellquote" "size" "slice" "sort" "split"
                                    "sprintf" "step" "strftime" "strip" "tag"
-                                   "tagged" "template" "tree_each" "then"
+                                   "tagged" "template" "then" "tree_each"
                                    "type" "unique" "unwrap" "upcase" "values"
                                    "versioncmp" "warning" "with" "yaml_data"
                                    ;; Bolt
@@ -350,21 +351,47 @@ Return nil, if there is no special context at POS, or one of
                                    "without_default_logging"
                                    )))
       ;; http://docs.puppetlabs.com/references/latest/type.html
-      (builtin-type . ,(rx (or "augeas" "computer" "cron" "exec" "file"
-                               "filebucket" "group" "host" "interface" "k5login"
-                               "macauthorization" "mailalias" "maillist" "mcx"
-                               "mount" "nagios_command" "nagios_contact"
+      (builtin-type . ,(rx (or "exec" "file" "filebucket" "group" "notify"
+                               "package" "resources" "schedule" "service"
+                               "stage" "tidy" "user"
+                               ;; augeas_core
+                               "augeas"
+                               ;; cron_core
+                               "cron"
+                               ;; host_core
+                               "host"
+                               ;; k5login_core
+                               "k5login"
+                               ;; mailalias_core
+                               "mailalias"
+                               ;; maillist_core
+                               "maillist"
+                               ;; mount_core
+                               "mount"
+                               ;; nagios_core
+                               "nagios_command" "nagios_contact"
                                "nagios_contactgroup" "nagios_host"
                                "nagios_hostdependency" "nagios_hostescalation"
                                "nagios_hostextinfo" "nagios_hostgroup"
                                "nagios_service" "nagios_servicedependency"
-                               "nagios_serviceescalation" "nagios_serviceextinfo"
-                               "nagios_servicegroup" "nagios_timeperiod" "notify"
-                               "package" "resources" "router" "schedule"
-                               "scheduled_task" "selboolean" "selmodule"
-                               "service" "ssh_authorized_key" "sshkey" "stage"
-                               "tidy" "user" "vlan" "yumrepo" "zfs" "zone"
-                               "zpool")))
+                               "nagios_serviceescalation"
+                               "nagios_serviceextinfo" "nagios_servicegroup"
+                               "nagios_timeperiod"
+                               ;; scheduled_task
+                               "scheduled_task"
+                               ;; selinux_core
+                               "selboolean" "selmodule"
+                               ;; sshkeys_core
+                               "ssh_authorized_key" "sshkey"
+                               ;; yumrepo_core
+                               "yumrepo"
+                               ;; zfs_core
+                               "zfs" "zpool"
+                               ;; zone_core
+                               "zone"
+                               ;; deprecated with Puppet 6.0.0
+                               "computer" "macauthorization" "mcx"
+                               "interface" "router" "vlan")))
       ;; http://docs.puppetlabs.com/references/stable/metaparameter.html.
       ;; Strictly speaking, this is no meta parameter, but it's so common that
       ;; it got a mention in the docs, see
