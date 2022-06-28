@@ -97,7 +97,7 @@
 
 ;;; Customization
 (defgroup puppet nil
-  "Puppet mastering in Emacs"
+  "Puppet mastering in Emacs."
   :prefix "puppet-"
   :group 'languages
   :link '(url-link :tag "Github" "https://github.com/voxpupuli/puppet-mode")
@@ -240,12 +240,13 @@ Return nil, if there is no special context at POS, or one of
   (not (null (puppet-syntax-context pos))))
 
 (defun puppet-get-repl-proc ()
+  "Return the inferior Puppet REPL process."
   (unless (comint-check-proc puppet-repl-buffer)
     (puppet-repl))
   (get-buffer-process puppet-repl-buffer))
 
 (defun puppet-repl-send-region (start end)
-  "Send the current region to the inferior Puppet REPL process."
+  "Send the region between START and END to the inferior Puppet REPL process."
   (interactive "r")
   (deactivate-mark t)
   (let* ((string (buffer-substring-no-properties start end))
@@ -263,6 +264,7 @@ Return nil, if there is no special context at POS, or one of
   (puppet-repl-send-region (point-min) (point-max)))
 
 (defun puppet-comint-filter (string)
+  "Translate control sequences in STRING into text properties."
   (ansi-color-apply string))
 
 (defun puppet-repl ()
@@ -530,13 +532,15 @@ are available:
   "The last command used to apply a manifest.")
 
 (defun puppet-run-check-command (command buffer-name-template)
-  "Run COMMAND to check the current buffer."
+  "Run COMMAND to check the current buffer.
+BUFFER-NAME-TEMPLATE is used to create the buffer name."
   (save-some-buffers (not compilation-ask-about-save) nil)
   (compilation-start command nil (lambda (_)
                                    (format buffer-name-template command))))
 
 (defun puppet-read-command (prompt previous-command default-command)
-  "Read a command from minibuffer with PROMPT."
+  "Read a command from minibuffer with PROMPT.
+PREVIOUS-COMMAND or DEFAULT-COMMAND are used if set."
   (let* ((buffer-file-name (or (buffer-file-name) ""))
          (filename (or (file-remote-p buffer-file-name 'localname)
                        buffer-file-name)))
@@ -598,9 +602,10 @@ When called interactively, prompt for COMMAND."
 
 ;;; Indentation code
 (defun puppet-block-indent ()
-  "If point is in a block, return the indentation of the first line of that
-block (the line containing the opening brace).  Used to set the indentation
-of the closing brace of a block."
+  "Return the indentation of the block if point is in a block.
+The indentation of the block is the indentation of the first line
+of that block (the line containing the opening brace).  Used to
+set the indentation of the closing brace of a block."
   (save-excursion
     (let ((opoint (nth 1 (syntax-ppss))))
       (when (and opoint
@@ -615,14 +620,14 @@ If point is not in an argument list, return nil."
   (puppet--in-listlike "("))
 
 (defun puppet-in-array ()
-  "If point is in an array, return the position of the opening '[' of
-that array, else return nil."
+  "Return the position of the opening '[' if point is in an array.
+Otherwise return nil."
   (puppet--in-listlike "\\["))
 
 (defun puppet--in-listlike (openstring)
-  "If point is in a listlike, return the position of the opening character of
-it, else return nil.
-OPENSTRING is a regexp string matching the opening character."
+  "Return the position of the opening character if point is in a listlike.
+Otherwise return nil.  OPENSTRING is a regexp string matching the
+opening character."
   (save-excursion
     (let ((opoint (nth 1 (syntax-ppss))))
       (when (and opoint
@@ -632,8 +637,9 @@ OPENSTRING is a regexp string matching the opening character."
         opoint))))
 
 (defun puppet-in-include ()
-  "If point is in a continued list of include statements, return the position
-of the initial include plus puppet-include-indent."
+  "Return the adjusted indentation if point is in continued includes.
+The adjustment is made by using the position of the initial
+include plus `puppet-include-indent'."
   (save-excursion
     (save-match-data
       (let ((include-column nil)
@@ -652,6 +658,10 @@ of the initial include plus puppet-include-indent."
         include-column))))
 
 (defun puppet-indent-listlike (listtype closing-regex list-start)
+  "Return the indentation for a Puppet list-like structure.
+The symbol LISTTYPE indicates the type of list.  The regular
+expression CLOSING-REGEX is used to find the end of the structure.
+LIST-START indicates the start of the structure."
   ;; This line starts with an element from an array or parameter list.
   ;; Indent to the same indentation as the first element of the list:
   ;;
@@ -688,9 +698,11 @@ of the initial include plus puppet-include-indent."
         (current-column)))))
 
 (defun puppet-indent-array (array-start)
+  "Return the indentation for a Puppet array starting with ARRAY-START."
   (puppet-indent-listlike 'array "^\\s-*],*" array-start))
 
 (defun puppet-indent-arglist (arglist-start)
+  "Return the indentation for an argument list starting with ARGLIST-START."
   (puppet-indent-listlike 'arglist "^\\s-*),*" arglist-start))
 
 (defun puppet-indent-line ()
