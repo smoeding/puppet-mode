@@ -249,8 +249,8 @@ Return nil, if there is no special context at POS, or one of
   "Send the region between START and END to the inferior Puppet REPL process."
   (interactive "r")
   (deactivate-mark t)
-  (let* ((string (buffer-substring-no-properties start end))
-         (proc (puppet-get-repl-proc)))
+  (let ((string (buffer-substring-no-properties start end))
+        (proc (puppet-get-repl-proc)))
     (comint-simple-send proc string)))
 
 (defun puppet-repl-send-line ()
@@ -923,10 +923,10 @@ with any of these symbols.  The expansion will only match if it
 is in any given CONTEXT.  nil means no specific syntactic context."
   (when (symbolp context)
     (setq context (list context)))
-  (let* ((pos (next-single-char-property-change (point) property nil limit)))
+  (let ((pos (next-single-char-property-change (point) property nil limit)))
     (when (and pos (> pos (point)))
       (goto-char pos)
-      (let* ((value (get-text-property pos property)))
+      (let ((value (get-text-property pos property)))
         (if (and value (memq (car value) context))
             (progn (set-match-data (cdr value)) t)
           (puppet-match-property property context limit))))))
