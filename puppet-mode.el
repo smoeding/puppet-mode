@@ -390,10 +390,7 @@ Return nil, if there is no special context at POS, or one of
                                ;; zfs_core
                                "zfs" "zpool"
                                ;; zone_core
-                               "zone"
-                               ;; deprecated with Puppet 6.0.0
-                               "computer" "macauthorization" "mcx"
-                               "interface" "router" "vlan")))
+                               "zone")))
       ;; http://docs.puppetlabs.com/references/stable/metaparameter.html.
       ;; Strictly speaking, this is no meta parameter, but it's so common that
       ;; it got a mention in the docs, see
