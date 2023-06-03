@@ -1169,7 +1169,7 @@ With a prefix argument SUPPRESS it simply inserts $."
 
 ;;; Skeletons
 
-(defun puppet-dissect-filename (file)
+(defun puppet-filename-parser (file)
   "Return list of path components for the Puppet manifest FILE.
 The first element of the list will be the module name and the
 remaining elements are the relative path components below the
@@ -1211,11 +1211,11 @@ development in a user's home directory)."
 
 (defun puppet-file-module-name (file)
   "Return the module name for the Puppet class in FILE."
-  (car (puppet-dissect-filename file)))
+  (car (puppet-filename-parser file)))
 
 (defun puppet-file-class-name (file)
   "Return the class name for the Puppet class in FILE."
-  (mapconcat #'identity (puppet-dissect-filename file) "::"))
+  (mapconcat #'identity (puppet-filename-parser file) "::"))
 
 (define-skeleton puppet-keyword-class
   "Insert \"class\" skeleton."
