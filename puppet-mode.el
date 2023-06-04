@@ -1223,6 +1223,32 @@ development in a user's home directory)."
   "Return the class name for the Puppet class in FILE."
   (mapconcat #'identity (puppet-filename-parser file) "::"))
 
+(defun puppet-file-type-name (file)
+  "Return the Puppet type name for FILE.
+FILE must be an absolute path name and should conform to the
+standard Puppet module layout.  The Puppet type name is returned
+if can be derived from FILE.  Otherwise NIL is returned.
+
+If the function is called with the file name of a provider, the
+appropriate type name is returned."
+  (let ((path (puppet-dissect-filename file)))
+    (cond ((and (equal (nth 1 path) "type")
+                (equal (nth 2 path) "puppet"))
+           (car path))
+          ((and (equal (nth 2 path) "provider")
+                (equal (nth 3 path) "puppet"))
+           (cadr path)))))
+
+(defun puppet-file-provider-name (file)
+  "Return the Puppet provider name for FILE.
+FILE must be an absolute path name and should conform to the
+standard Puppet module layout.  The provider name is returned if
+it can be derived from FILE.  Otherwise NIL is returned."
+  (let ((path (puppet-dissect-filename file)))
+    (if (and (equal (nth 2 path) "provider")
+             (equal (nth 3 path) "puppet"))
+        (car path))))
+
 (define-skeleton puppet-keyword-class
   "Insert \"class\" skeleton."
   nil
