@@ -1169,6 +1169,19 @@ With a prefix argument SUPPRESS it simply inserts $."
 
 ;;; Skeletons
 
+(defun puppet-dissect-filename (file)
+  "Return list of path components for FILE.
+The first list element is the basename of FILE and the remaining
+elements are the names of each directory from FILE to the root of
+the filesystem."
+  (cl-loop for path = (file-name-sans-extension file)
+           then (directory-file-name (file-name-directory path))
+           ;; stop iteration at the root of the directory
+           ;; tree (should work for Windows & Unix/Linux)
+           until (or (string-suffix-p ":" path)
+                     (string-equal (file-name-directory path) path))
+           collect (file-name-nondirectory path)))
+
 (defun puppet-filename-parser (file)
   "Return list of path components for the Puppet manifest FILE.
 The first element of the list will be the module name and the
@@ -1187,14 +1200,7 @@ function will for example return ‘foo’ as module name even if the
 module is using the ‘puppet-foo’ directory (e.g. for module
 development in a user's home directory)."
   (if (stringp file)
-      (let* ((parts (cl-loop for path = file then (directory-file-name
-                                                   (file-name-directory path))
-                             ;; stop iteration at the root of the directory
-                             ;; tree (should work for Windows & Unix/Linux)
-                             until (or (string-suffix-p ":" path)
-                                       (string= (file-name-directory path) path)
-                                       (null (file-name-directory path)))
-                             collect (file-name-base path)))
+      (let* ((parts (puppet-dissect-filename file))
              ;; Remove "init" if it is the first element
              (compact (if (string-equal (car parts) "init")
                           (cdr parts)
